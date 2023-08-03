@@ -1,4 +1,3 @@
-# 4.5.1
 import openpyxl
 import numpy as np
 import pandas as pd
@@ -6,46 +5,40 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 
-data = pd.read_excel('D:/SE/Luleå/D7055E__Data_Visualization/module_2__lab1/Canada.xlsx',
+data = pd.read_excel('Canada.xlsx',
                    sheet_name='Canada by Citizenship',
                    skiprows=range(20),
                    skipfooter=2)
 
 print(data.head())
 
-# 4.5.2
+
 # print column headers
 print(data.columns)
 
-# 4.5.3
 # remove meaningless columns for smaller manageable dataset
 data.drop(['AREA', 'REG', 'DEV', 'Type', 'Coverage'], axis=1, inplace=True)
 print(data.head())
 
-# 4.5.4
 # change column names
 data.rename(columns={'OdName': 'Country', 'AreaName': 'Continent', 'RegName': 'Region'}, inplace=True)
 print(data.columns)
 
-# 4.5.5
 # add total column --> total immigrants
 data['Total']=data.sum(axis=1)
 print(data.head())
 
-# 4.5.6
 # check null values
 print(data.isnull().sum())
 
-# 4.5.7
 # set the 'country' column as the index
 data=data.set_index('Country')
 print(data.head)
 
-# 4.6.1
 print(plt.style.available)
 mpl.style.use(['ggplot'])
 
-# 4.6.2
+
 # Switzerland example
 years = list(map(int, range(1980, 2014)))
 # Switzerland immigration data per years
@@ -56,7 +49,7 @@ plt.ylabel('Number of immigrats')
 plt.xlabel('Years')
 plt.show()
 
-# 4.6.3
+
 # immigration trend over the years for India, Pakistan and Bangladesh
 ind_pak_ban = data.loc[['India', 'Pakistan', 'Bangladesh'], years]
 ind_pak_ban.head()
@@ -73,7 +66,7 @@ plt.title('Immigration per continent')
 plt.axis('equal')
 plt.show()
 
-# 4.6.5
+
 # box plot
 # number of immigrats of China and Canada over the years
 china = data.loc[['China'], years].T
@@ -82,7 +75,7 @@ plt.title('Box plot of Chinese immigrants')
 plt.ylabel('Number of immigrants')
 plt.show()
 
-# 4.6.6
+
 # plot numerous box plots
 # box plot of immigrants from India, Pakistan and Bangladesh
 ind_pak_ban.T.plot(kind='box', figsize=(8, 7))
@@ -90,7 +83,7 @@ plt.title('Box plots of Indian, Pakistanis  and Bangladeshi immigrants')
 plt.ylabel('Number of immigrants')
 plt.show()
 
-# 4.6.7
+
 # scatter plot
 # new DataFrame containing the years as an index and the total number of immigrants each year
 totalPerYear = pd.DataFrame(data[years].sum(axis=0))
@@ -102,7 +95,7 @@ totalPerYear.reset_index(inplace=True)
 totalPerYear.head()
 print(totalPerYear.head())
 
-# 4.6.8
+
 # area plot
 # DataFrame with information for India, China, Pakistan and France
 top = data.loc[['India', 'China', 'Pakistan', 'France'], years]
@@ -115,7 +108,7 @@ plt.ylabel('Number of immigrants')
 plt.xlabel('Years')
 plt.show()
 
-# 4.6.9
+
 # histogram
 top.plot.hist()
 plt.title('Histogram of immigration from Some Populous Countries')
@@ -136,7 +129,7 @@ plt.ylabel('Number of years')
 plt.xlabel('Number of immigrants')
 plt.show()
 
-# 4.6.12
+
 # bar plot
 # number of immigrants from France per year
 france = data.loc['France', years]
@@ -146,7 +139,7 @@ plt.ylabel('Number of immigrants')
 plt.title('Immigrants from France')
 plt.show()
 
-# 4.6.13
+
 # increase trend since 1997 for over a decade using an annotate function
 france.plot(kind='bar', figsize=(10,6))
 plt.xlabel('Year')
@@ -156,7 +149,7 @@ plt.annotate('Increasing trend', xy=(19, 4500), rotation=23, va='bottom', ha='le
 plt.annotate('', xy=(29, 5500), xytext=(17, 3800), xycoords='data', arrowprops=dict(arrowstyle='->', connectionstyle='arc3', color='black', lw=1.5))
 plt.show()
 
-# # 4.6.14
+
 # # put bars horizontally
 data_top10 = pd.DataFrame(data.nlargest(10, 'Total')['Total'].sort_values(ascending=True))
 data_top10.plot.barh(legend=False, color='crimson', edgecolor='LightCoral')
@@ -170,8 +163,8 @@ plt.show()
 
 
 
-# PART 3 - Challenging Questions
-# Q1 - pie plot
+
+# pie plot
 # number of immigrants per continent
 # define colors
 colors = ['lightgreen', 'lightblue', 'pink', 'purple', 'grey', 'gold']
@@ -183,7 +176,7 @@ cont['Total'].plot(kind='pie', figsize=(7, 7), autopct='%1.1f%%', shadow=True, c
 plt.title('Immigration per continent')
 plt.show()
 
-# Q2 - scatter plot
+# scatter plot
 # number of immigrants in Canada over the years
 canada = data.loc[['Canada'], years].T
 plt.scatter(canada, years)
@@ -192,7 +185,7 @@ plt.xlabel('Number of immigrants')
 plt.ylabel('Year')
 plt.show()
 
-# Q3 - area plot
+# area plot
 # DataFrame with information for India, China, Pakistan and France
 top = data.loc[['India', 'China', 'Pakistan', 'France'], years]
 top = top.T
@@ -204,7 +197,7 @@ plt.ylabel('Number of immigrants')
 plt.xlabel('Years')
 plt.show()
 
-# Q4 - bar plot
+# bar plot
 # number of immigrants from Iceland per year
 data_iceland = data.loc['Iceland', years]
 data_iceland.plot(kind='bar', figsize=(10, 6))
@@ -213,7 +206,7 @@ plt.ylabel('Number of immigrants')
 plt.title('Immigrants from Iceland')
 plt.show()
 
-# Q5 - horizontal bar plot
+# horizontal bar plot
 # top 15 immigrants to Canada per year
 data_top15 = pd.DataFrame(data.nlargest(15, 'Total')['Total'].sort_values(ascending=True))
 ax=data_top15.plot.barh(legend=False)
